@@ -12,10 +12,6 @@ echo "Running as root..."
 sleep 2
 clear
 
-uci set system.@system[0].zonename='Asia/Tehran'
-
-uci set system.@system[0].timezone='<+0330>-3:30'
-
 uci commit
 
 /sbin/reload_config
@@ -68,7 +64,6 @@ fi
 
 echo -e "${YELLOW} 1.${NC} ${CYAN} Install Passwall 1 ${NC}"
 echo -e "${YELLOW} 2.${NC} ${CYAN} Install Passwall 2 ( Requires a +256 MB RAM )${NC}"
-echo -e "${YELLOW} 9.${NC} ${YELLOW} CloudFlare IP Scanner ${NC}"
 echo -e "${YELLOW} 6.${NC} ${RED} EXIT ${NC}"
 echo ""
 
@@ -84,7 +79,7 @@ echo "Installing Passwall 1 ..."
 
 sleep 2
 
-rm -f passwall.sh && wget https://raw.githubusercontent.com/amirhosseinchoghaei/Passwall/main/passwall.sh && chmod 777 passwall.sh && sh passwall.sh
+rm -f passwall.sh && wget https://raw.githubusercontent.com/kritsa0/Openwrt-Passwall/main/passwall.sh && chmod 777 passwall.sh && sh passwall.sh
 
 
 ;;
@@ -95,22 +90,8 @@ echo "Installing Passwall 2 ..."
 
 sleep 2
 
-rm -f passwall2x.sh && wget https://raw.githubusercontent.com/amirhosseinchoghaei/Passwall/main/passwall2x.sh && chmod 777 passwall2x.sh && sh passwall2x.sh
+rm -f passwall2x.sh && wget https://raw.githubusercontent.com/kritsa0/Openwrt-Passwall/main/passwall2x.sh && chmod 777 passwall2x.sh && sh passwall2x.sh
 
- 
-;;
-
-9)
-        
-echo "Installing CloudFlare IP SCAN ..."
-
-opkg update
-
-opkg install bash
-
-opkg install curl
-
-curl -ksSL https://gitlab.com/rwkgyg/cdnopw/raw/main/cdnopw.sh -o cdnopw.sh && bash cdnopw.sh
  
 ;;
 
@@ -144,17 +125,6 @@ opkg install luci-app-passwall2
 
            read -s -n 1
            ;;
-
- 3)
-
-echo "Installing Passwall 2 With Mahsa Core ..."
-
-sleep 2
-
-rm -f mahsa.sh && wget https://raw.githubusercontent.com/amirhosseinchoghaei/Passwall/refs/heads/main/mahsa.sh && chmod 777 mahsa.sh && sh mahsa.sh
-
-
-;;
 
 
  *)

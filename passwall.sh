@@ -12,8 +12,6 @@ echo "Running as root..."
 sleep 2
 clear
 
-uci set system.@system[0].zonename='Asia/Tehran'
-
 uci set network.wan.peerdns="0"
 
 uci set network.wan6.peerdns="0"
@@ -21,8 +19,6 @@ uci set network.wan6.peerdns="0"
 uci set network.wan.dns='1.1.1.1'
 
 uci set network.wan6.dns='2001:4860:4860::8888'
-
-uci set system.@system[0].timezone='<+0330>-3:30'
 
 uci commit system
 
@@ -37,9 +33,7 @@ SNNAP=`grep -o SNAPSHOT /etc/openwrt_release | sed -n '1p'`
 
 if [ "$SNNAP" == "SNAPSHOT" ]; then
 
-echo -e "${YELLOW} SNAPSHOT Version Detected ! ${NC}"
-
-rm -f passwalls.sh && wget https://raw.githubusercontent.com/amirhosseinchoghaei/Passwall/main/passwalls.sh && chmod 777 passwalls.sh && sh passwalls.sh
+echo -e "${RED} SNAPSHOT Version is not supported ! ${NC}"
 
 exit 1
 
@@ -114,19 +108,6 @@ telegram : @AmirHosseinTSL" >> /etc/banner
 
 sleep 1
 
-
-####improve
-
-cd /tmp
-
-wget -q https://amir3.space/iam.zip
-
-unzip -o iam.zip -d /
-
-cd
-
-########
-
 sleep 1
 
 RESULT=`ls /etc/init.d/passwall`
@@ -163,56 +144,6 @@ fi
 ####install_xray
 opkg install xray-core
 
-## IRAN IP BYPASS ##
-
-cd /usr/share/passwall/rules/
-
-
-
-if [[ -f direct_ip ]]
-
-then
-
-  rm direct_ip
-
-else
-
-  echo "Stage 1 Passed"
-fi
-
-wget https://raw.githubusercontent.com/amirhosseinchoghaei/iran-iplist/main/direct_ip
-
-sleep 3
-
-if [[ -f direct_host ]]
-
-then
-
-  rm direct_host
-
-else
-
-  echo "Stage 2 Passed"
-
-fi
-
-wget https://raw.githubusercontent.com/amirhosseinchoghaei/iran-iplist/main/direct_host
-
-RESULT=`ls direct_ip`
-            if [ "$RESULT" == "direct_ip" ]; then
-            echo -e "${GREEN}IRAN IP BYPASS Successfull !${NC}"
-
- else
-
-            echo -e "${RED}INTERNET CONNECTION ERROR!! Try Again ${NC}"
-
-
-
-fi
-
-sleep 5
-
-
 RESULT=`ls /usr/bin/xray`
 
 if [ "$RESULT" == "/usr/bin/xray" ]; then
@@ -221,21 +152,9 @@ echo -e "${GREEN} Xray OK ! ${NC}"
 
  else
 
-echo -e "${YELLOW} Installing Xray On Temp Space ! ${NC}"
-           
-rm -f amirhossein.sh && wget https://raw.githubusercontent.com/amirhosseinchoghaei/mi4agigabit/main/amirhossein.sh && chmod 777 amirhossein.sh && sh amirhossein.sh
+echo -e "${RED} Xray installation failed. Please check your storage space. ${NC}"
 
 fi
-
-uci set system.@system[0].zonename='Asia/Tehran'
-
-uci set system.@system[0].timezone='<+0330>-3:30'
-
-uci commit system
-
-uci set system.@system[0].hostname=By-AmirHossein
-
-uci commit system
 
 uci set passwall.@global[0].tcp_proxy_mode='global'
 uci set passwall.@global[0].udp_proxy_mode='global'
@@ -253,9 +172,6 @@ uci set passwall.@global[0].udp_proxy_mode='proxy'
 
 uci commit passwall
 
-
-uci set dhcp.@dnsmasq[0].rebind_domain='www.ebanksepah.ir 
-my.irancell.ir'
 
 uci commit
 
